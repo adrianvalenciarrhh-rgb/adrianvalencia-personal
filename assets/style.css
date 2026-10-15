@@ -292,7 +292,7 @@ html.lock,html.lock body{overflow:hidden}
 /* 10 helix */
 .s09{height:187.5rem}
 .cult{perspective:87.5rem;perspective-origin:50% 50%;height:40rem;transform-style:preserve-3d}
-.ci{left:50%;top:50%;width:13.125rem;height:16.875rem;margin:-8.4375rem 0 0 -6.5625rem;transform:translate3d(var(--hx,0px),var(--hy,0px),var(--hz,0px)) rotateY(var(--ha,0deg));opacity:var(--o,1);backface-visibility:hidden}
+.ci{left:50%;top:50%;width:13.125rem;height:16.875rem;margin:-8.4375rem 0 0 -6.5625rem;transform:translate3d(var(--hx,0px),var(--hy,0px),var(--hz,0px)) rotateY(var(--ha,0deg));opacity:var(--o,1);}
 .ci img{filter:brightness(var(--b,.7))}
 /* 11 faq */
 .faq-in{grid-template-columns:35rem 1fr;gap:3.75rem}.faq-b .faq-in{grid-template-columns:35rem 1fr}
@@ -373,6 +373,45 @@ html.lock,html.lock body{overflow:hidden}
 .more-g{grid-template-columns:repeat(3,1fr)}.more-g .pimg{aspect-ratio:4/3}
 /* 2026 */
 .c2026{line-height:.86;padding:1.875rem 0 2.5rem}.c2026 span{transform:none}
+/* ===== R4 ===== */
+.reel-btn{display:none}
+.pr{position:absolute;left:0;top:0;z-index:4;pointer-events:none;width:11.875rem;height:3.375rem;border-radius:999px;overflow:hidden;background:rgba(48,48,56,.62);backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);border:1px solid rgba(255,255,255,.16);box-shadow:0 0.625rem 1.875rem rgba(0,0,0,.35);opacity:0;will-change:transform,opacity}
+.pr-lens{position:absolute;left:22%;right:22%;top:0;bottom:0;background-repeat:no-repeat;filter:hue-rotate(185deg) saturate(1.5) contrast(1.15) brightness(1.05);-webkit-mask:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+.pr-t{position:absolute;inset:0;display:grid;place-items:center;font-family:"Inter Display";font-weight:600;font-size:1.625rem;letter-spacing:-.01em;text-transform:uppercase;color:rgba(255,255,255,.92);text-shadow:-1px 0 rgba(255,60,90,.55),1px 0 rgba(60,170,255,.55);white-space:nowrap}
+.pr{transition:opacity .35s var(--ease),scale .45s var(--ease);scale:.7}
+.reel.on .pr,.reel:focus-visible .pr,.reel.touch .pr{opacity:1;scale:1}
+.reel.touch .pr{left:50%;top:auto;bottom:0.75rem;transform:translateX(-50%)!important;scale:1;width:9.375rem;height:2.75rem}
+.reel.touch .pr-t{font-size:1.25rem}
+.reel:focus-visible .pr{left:50%;top:50%;margin:-1.6875rem 0 0 -5.9375rem}
+.reel:hover .h-portrait{transform:scale(1.04);filter:brightness(.85)}
+/* más publicaciones */
+.pn-in,.pn-r,.pn-big{display:none}
+.pn-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;padding:3.125rem var(--pad) 3.75rem}
+.pn-c{display:block}
+.pn-ci{position:relative;aspect-ratio:4/5;border-radius:0.625rem;overflow:hidden}
+.pn-ci img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.pn-ci:after{content:"";position:absolute;inset:0;background:#000;opacity:0;transition:opacity .5s var(--ease)}
+.pn-lab{position:absolute;left:1.125rem;bottom:1rem;z-index:2;font-size:0.875rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:0;transform:translateY(0.625rem);transition:opacity .45s,transform .45s var(--ease)}
+.pn-c:hover .pn-ci:after,.pn-c:focus-visible .pn-ci:after{opacity:.38}.pn-c:hover .pn-ci img{transform:scale(1.025)}
+.pn-c:hover .pn-lab,.pn-c:focus-visible .pn-lab{opacity:1;transform:none}
+.pn-cap{display:flex;justify-content:space-between;gap:0.75rem;font-size:1.1875rem;line-height:1.575rem;margin-top:0.875rem;text-transform:uppercase}.pn-cap .g{font-size:0.875rem;text-transform:none}
+/* cultura */
+.s09{height:262.5rem}
+@media (hover:none){.pcat,.pn-lab{opacity:1;transform:none}.pimg:after,.pn-ci:after{opacity:.22}}
+/* R4 work detail: imágenes más contenidas, texto mayor */
+.pd{grid-template-columns:35rem 1fr;gap:5rem}
+.pd-l .rich{font-size:1.375rem;line-height:1.45}
+.pd-l .meta li{font-size:1.125rem}
+.pd-r{max-width:38.75rem;justify-self:end;width:100%}.pi2 img{aspect-ratio:4/3}
+/* tablet / portátil: mínimos legibles */
+@media (max-width:1199px) and (min-width:810px){
+.lbl h6{font-size:max(0.8125rem,10px)}.ae,.cd,.ts,.ad,.faq-a p,.ah-ex,.closing .k,.pcap,.pn-cap,.ct-list li{font-size:max(1em,12px)}
+.hnav p,.hloc p,nav{font-size:max(0.875rem,11px)}
+.rich.g,.s03-p,.s04-intro,.tcard,.faq-q .q{font-size:max(1.1875rem,14px)}
+.hloc{display:block}
+}
+/* R4 marquee proyecto */
+.ph{overflow:hidden}.pmq{padding:0.625rem 0 1.125rem!important}.pmq .big{line-height:1.08;padding-bottom:.06em;padding-right:.35em}
 /* ============ tablet ============ */
 @media (max-width:1199px) and (min-width:810px){.hloc{display:none}}
 /* ============ phone ============ */
@@ -468,4 +507,23 @@ html{font-size:calc(100vw / 24.375)}
 .pn-h{font-size:2.5rem}
 .more-g{grid-template-columns:1fr}
 .c2026{padding:1.25rem 0 1.5rem}
+/* R4 phone */
+.pn-g{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:0.75rem;padding:1.875rem var(--pad) 2.5rem;scrollbar-width:none}.pn-g::-webkit-scrollbar{display:none}
+.pn-c{flex:0 0 78%;scroll-snap-align:start}
+.pn-cap{font-size:0.9375rem}
+.s09{height:150rem}
+/* R4 phone/tablet-vertical: escalar en vez de ocultar */
+.hero .band{display:flex;margin:0 calc(-1 * var(--pad)) 1rem}
+.s02-r .band{display:flex;margin:1.875rem calc(-1 * var(--pad)) 0}
+.s03-b{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.s03-b .s03-p{grid-column:1/-1;order:-1}
+.s03-i1{display:block;height:16.25rem}.s03-i2{height:16.25rem!important}
+.faq-l{display:grid;grid-template-columns:6.875rem 1fr;gap:1rem;align-items:end;margin-bottom:1.875rem;position:static}
+.faq-l .faq-img{width:100%;height:9.375rem;margin:0}.faq-l h3{width:auto;font-size:1.375rem;line-height:1.1}
+.ab{display:block;margin-bottom:1rem}.ab img{height:15rem}
+.pd-r{max-width:none}.pd-l .rich{font-size:1.0625rem}.pd-l .meta li{font-size:0.9375rem}
+.band-t{flex:0 0 auto;min-width:100%}.band p{padding:0 .7em}.s02-r .band{font-size:0.6875rem}
+.big.st{font-size:3.25rem}
+.pn-cap{flex-direction:column;gap:0.125rem}.pmq{padding:0.375rem 0 0.625rem!important}
+}
+@media (min-width:600px) and (max-width:809px){html{font-size:min(calc(100vw / 24.375),24px)}
 }

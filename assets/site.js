@@ -28,9 +28,21 @@ if(sb&&sp)sb.addEventListener('click',()=>{const o=sp.hidden;if(o&&!sp.firstChil
 // ---- R2: reel (tilt 3D, etiqueta que sigue al cursor, modal YouTube)
 const reel=document.querySelector('.reel'),modal=document.querySelector('.modal');
 if(reel&&modal){const fine=matchMedia('(pointer:fine)').matches;
- if(fine&&!rm){let tx=0,ty=0,cx=0,cy=0,raf2=0;const run=()=>{cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;reel.style.setProperty('--ry',cx.toFixed(2)+'deg');reel.style.setProperty('--rx',cy.toFixed(2)+'deg');if(Math.abs(tx-cx)+Math.abs(ty-cy)>.01)raf2=requestAnimationFrame(run);else raf2=0};
-  reel.addEventListener('pointermove',e=>{const b=reel.getBoundingClientRect();const dx=Math.max(-.5,Math.min(.5,(e.clientX-b.left)/b.width-.5)),dy=Math.max(-.5,Math.min(.5,(e.clientY-b.top)/b.height-.5));const k=1+Math.hypot(dx,dy)*.8;tx=dx*8*k;ty=-dy*8*k;reel.classList.add('on');if(!raf2)raf2=requestAnimationFrame(run)});
-  reel.addEventListener('pointerleave',()=>{tx=0;ty=0;if(!raf2)raf2=requestAnimationFrame(run);setTimeout(()=>reel.classList.remove('on'),600)});}
+ const pr=reel.querySelector('.pr'),lens=reel.querySelector('.pr-lens'),pimg=reel.querySelector('img');
+ const setLens=()=>{const src=pimg.currentSrc||pimg.src;lens.style.backgroundImage=`url("${src}")`};if(pimg.complete)setLens();else pimg.addEventListener('load',setLens);
+ if(fine){let tx=0,ty=0,cx=0,cy=0,px=0,py=0,qx=0,qy=0,inside=false,raf2=0,first=true;
+  const loop=()=>{const W=reel.offsetWidth,H=reel.offsetHeight;
+   if(!rm){cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;reel.style.setProperty('--ry',cx.toFixed(2)+'deg');reel.style.setProperty('--rx',cy.toFixed(2)+'deg')}
+   qx+=(px-qx)*.16;qy+=(py-qy)*.16;if(rm){qx=px;qy=py}
+   const pw=pr.offsetWidth,ph=pr.offsetHeight;const x=Math.max(pw/2,Math.min(W-pw/2,qx)),y=Math.max(ph/2,Math.min(H-ph/2,qy));
+   pr.style.transform=`translate3d(${(x-pw/2).toFixed(1)}px,${(y-ph/2).toFixed(1)}px,0)`;
+   const z=1.7;lens.style.backgroundSize=`${W*z}px ${H*z}px`;lens.style.backgroundPosition=`${(-(x*z-pw/2)).toFixed(1)}px ${(-(y*z-ph/2)-H*.06).toFixed(1)}px`;
+   const moving=Math.abs(tx-cx)+Math.abs(ty-cy)>.01||Math.abs(px-qx)+Math.abs(py-qy)>.3;raf2=(inside||moving)?requestAnimationFrame(loop):0};
+  const kick=()=>{if(!raf2)raf2=requestAnimationFrame(loop)};
+  reel.addEventListener('pointerenter',e=>{const b=reel.getBoundingClientRect();px=e.clientX-b.left;py=e.clientY-b.top;if(first||!reel.classList.contains('on')){qx=px;qy=py}first=false;inside=true;reel.classList.add('on');kick()});
+  reel.addEventListener('pointermove',e=>{const b=reel.getBoundingClientRect();px=e.clientX-b.left;py=e.clientY-b.top;const dx=Math.max(-.5,Math.min(.5,px/b.width-.5)),dy=Math.max(-.5,Math.min(.5,py/b.height-.5));const k=1+Math.hypot(dx,dy)*.8;tx=dx*8*k;ty=-dy*8*k;kick()});
+  reel.addEventListener('pointerleave',()=>{inside=false;tx=0;ty=0;reel.classList.remove('on');kick()});}
+ else{reel.classList.add('touch');const fit=()=>{const W=reel.offsetWidth,H=reel.offsetHeight,pw=pr.offsetWidth,ph=pr.offsetHeight,z=1.5,x=W/2,y=H-ph/2-12;lens.style.backgroundSize=`${W*z}px ${H*z}px`;lens.style.backgroundPosition=`${-(x*z-pw/2)}px ${-(y*z-ph/2)}px`};fit();addEventListener('resize',fit)}
  const box=modal.querySelector('.modal-v'),x=modal.querySelector('.modal-x');let last=null;
  const close=()=>{modal.classList.remove('open');document.documentElement.classList.remove('lock');setTimeout(()=>{modal.hidden=true;box.innerHTML=''},rm?0:350);document.removeEventListener('keydown',key);if(last)last.focus()};
  const key=e=>{if(e.key==='Escape')close();if(e.key==='Tab'){e.preventDefault();x.focus()}};
@@ -43,7 +55,7 @@ const s05w=document.querySelector('.s05-w'),s05t=document.querySelector('.s05-t'
 const helix=document.querySelector('.s09'),hi=helix?[...helix.querySelectorAll('.ci')]:[];if(helix)vo.observe(helix);
 const posts=[...document.querySelectorAll('.posts')];posts.forEach(p=>{vo.observe(p);p._a=0;p._h=false;p.addEventListener('pointerenter',()=>p._h=true);p.addEventListener('pointerleave',()=>p._h=false)});
 const desk=()=>innerWidth>809;
-function helixAt(p){const n=hi.length,R=desk()?Math.min(440,innerWidth*.3):innerWidth*.32,step=desk()?150:95;hi.forEach((el,i)=>{const a=(i/n)*Math.PI*4-p*Math.PI*3;const y=(i-(n-1)/2)*step-(p-.5)*step*n*.9;const z=Math.cos(a)*R;el.style.setProperty('--hx',(Math.sin(a)*R).toFixed(1)+'px');el.style.setProperty('--hy',y.toFixed(1)+'px');el.style.setProperty('--hz',z.toFixed(1)+'px');el.style.setProperty('--ha',(a*180/Math.PI).toFixed(1)+'deg');const o=Math.max(0,1-Math.max(0,Math.abs(y)-260)/160);el.style.setProperty('--o',o.toFixed(2));el.style.setProperty('--b',(.45+.45*(z/R+1)/2).toFixed(2));el.style.zIndex=Math.round(z+1000)})}
+function helixAt(p){const n=hi.length,d=desk(),R=d?Math.min(420,innerWidth*.28):innerWidth*.3,H=d?Math.min(innerHeight*.3,270):innerHeight*.24,st=.3,span=1+(n-1)*st;hi.forEach((el,i)=>{const q=p*span-i*st;const c=Math.max(-.2,Math.min(1.2,q));const a=c*Math.PI*1.1+i*1.25;const y=(.5-c)*2*H;const z=Math.cos(a)*R;el.style.setProperty('--hx',(Math.sin(a)*R).toFixed(1)+'px');el.style.setProperty('--hy',y.toFixed(1)+'px');el.style.setProperty('--hz',z.toFixed(1)+'px');el.style.setProperty('--ha',(Math.sin(a)*-28).toFixed(1)+'deg');const o=Math.max(0,Math.min(1,Math.min(q+.15,1.15-q)/.25));el.style.setProperty('--o',o.toFixed(2));el.style.setProperty('--b',(.45+.45*(z/R+1)/2).toFixed(2));el.style.zIndex=Math.round(z+1000)})}
 if(hi.length&&rm)helixAt(.5);
 let t0=performance.now();
 function tick(now){const t=(now-t0)/1000;const vh=innerHeight;
